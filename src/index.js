@@ -33,34 +33,33 @@ app.use(
 )
 
  router.get("/api/quizes", async(ctx) => {
-    ctx.body = quizService.getAll();
+    ctx.body = await quizService.getAll();
   });
 
 router.get("/api/quizes/id=:id", async (ctx) => {
-  ctx.body = quizService.getById(ctx.params.id);
+  ctx.body = await quizService.getById(ctx.params.id);
 });
 
 router.get("/api/quizes/category=:category",async (ctx) => {
-  ctx.body = quizService.getByCategory(ctx.params.category);
+  ctx.body = await quizService.getByCategory(ctx.params.category);
 })
 router.get("/api/quizes/difficulty=:difficulty", async(ctx) => {
-  ctx.body = quizService.getByDifficulty(ctx.params.difficulty);
+  ctx.body = await quizService.getByDifficulty(ctx.params.difficulty);
 })
 router.get("/api/quizes/:category/:difficulty",async(ctx) => {
-  console.log(ctx.params.category,ctx.params.difficulty);
-  ctx.body = quizService.getBy(ctx.params.category,ctx.params.difficulty);
+  ctx.body = await quizService.getBy(ctx.params.category,ctx.params.difficulty);
 })
 
 router.put("/api/quizes/:id", async(ctx) => {
-  ctx.body = quizService.updateById(ctx.params.id, {...ctx.request.body})
+  ctx.body = await quizService.updateById(ctx.params.id, {...ctx.request.body})
 })
 
 router.delete("/api/quizes/:id", async(ctx) => {
-  ctx.body = quizService.deleteById(ctx.params.id);
+  ctx.body = await quizService.deleteById(ctx.params.id);
 })
 
 router.post("/api/quizes", async(ctx) => {
-    const newQuiz = quizService.create({...ctx.request.body });
+    const newQuiz = await quizService.create({...ctx.request.body });
     ctx.body = newQuiz;
   });  
 
