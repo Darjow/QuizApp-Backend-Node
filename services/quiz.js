@@ -26,13 +26,15 @@ const getBy = async (category, difficulty) => {
 const deleteById = async (id) => {
   return Promise.resolve(performQuery(`Delete from quiz where id= ${id}`));
 };
-const updateById = async (idInput,{category,type, difficulty, question, correct_answer, approved, author, incorrect_answers}) => {
+const updateById = async (idInput,{Category,Type, Difficulty, Question, Correct_Answer, Approved, Author, Incorrect_Answers}) => {
 
-  const q = he.decode(question);
-  const ca = he.decode(correct_answer);
-  const ia = he.decode(incorrect_answers);
+  const q = he.decode(Question);
+  const ca = he.decode(Correct_Answer);
+  const ia = JSON.stringify(Incorrect_Answers.map(e => he.decode(e)));
 
-  return Promise.resolve(performQuery(`Update quiz set category=${category}, type=${type}, difficulty=${difficulty},question=${q}, correct_answer=${ca},incorrect_answers=${ia}, approved=${approved}, author=${author} where id=${idInput}`));
+  return Promise.resolve(performQuery(`
+  Update quiz 
+  set category="${Category}", type="${Type}", difficulty="${Difficulty}",question="${q}", correct_answer="${ca}",approved=${Approved}, author="${Author}",incorrect_answers='${ia}' where id=${idInput}`));
   
 }
 

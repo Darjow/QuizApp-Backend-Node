@@ -10,6 +10,7 @@ async function sqlDatabase(query){
     user: "root",
     password: "root"
   });
+  console.log(query);
   const [result] = await pool.query(query);
 
   await pool.end();
