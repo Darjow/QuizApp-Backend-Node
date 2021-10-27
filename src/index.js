@@ -1,76 +1,53 @@
-const {getLogger} = require('./core/logging');
-const config = require('config');
-const CORS_ORIGINS = config.get("cors.origins");
-const CORS_MAX_AGE = config.get("cors.maxAge");
 const Koa = require('koa');
-const Router = require("@koa/router")
+const config = require('config');
 const koaCors = require("@koa/cors");
-
 const bodyParser = require("koa-bodyparser");
-const quizService = require('../services/quiz');
-
+const {initializeLogger, getLogger} = require("./core/logging");
+const installRest = require("./rest");
+const {initialiseData} = require("./data") 
 
 const PORT = config.get("port");
 const HOST = config.get("host");
 
 
+const NODE_ENV = config.get('env');
+const CORS_ORIGINS = config.get('cors.origins');
+const CORS_MAX_AGE = config.get('cors.maxAge');
+const LOG_LEVEL = config.get('log.level');
+const LOG_DISABLED = config.get('log.disabled');
 
-const app = new Koa();
-const router = new Router();
+async function main() {
+	initializeLogger({
+		level: LOG_LEVEL,
+		disabled: LOG_DISABLED,
+		isProduction: NODE_ENV === 'production',
+		defaultMeta: { NODE_ENV },
+	});
+	
+	await initialiseData();
 
-app.use(bodyParser());
-app.use(
-  koaCors({
-    origin: (ctx) => {
-      if(CORS_ORIGINS.indexOf(ctx.request.header.origin) !== -1){
-        return ctx.request.header.origin;
-      }
-      return CORS_ORIGINS[0];
-    },
-    allowHeaders: ["Accept", "Content-Type", "Authorization"],
-    maxAge: CORS_MAX_AGE,
-  })
-)
+	const app = new Koa();
+	// Add CORS
+	app.use(
+		koaCors({
+			origin: (ctx) => {
+				if (CORS_ORIGINS.indexOf(ctx.request.header.origin) !== -1) {
+					return ctx.request.header.origin;
+				}
+				// Not a valid domain at this point, let's return the first valid as we should return a string
+				return CORS_ORIGINS[0];
+			},
+			allowHeaders: ['Accept', 'Content-Type', 'Authorization'],
+			maxAge: CORS_MAX_AGE,
+		})
+	);
+	
+	const logger = getLogger();
+	app.use(bodyParser());
+	installRest(app);
+	app.listen(PORT)
+	logger.info(`Server listening on: ${HOST}:${PORT}`)
 
- router.get("/api/quizes", async(ctx) => {
-    ctx.body = await quizService.getAll();
-  });
+}
 
-router.get("/api/quizes/id=:id", async (ctx) => {
-  ctx.body = await quizService.getById(ctx.params.id);
-});
-
-router.get("/api/quizes/category=:category",async (ctx) => {
-  ctx.body = await quizService.getByCategory(ctx.params.category);
-})
-router.get("/api/quizes/difficulty=:difficulty", async(ctx) => {
-  ctx.body = await quizService.getByDifficulty(ctx.params.difficulty);
-})
-router.get("/api/quizes/:category/:difficulty",async(ctx) => {
-  ctx.body = await quizService.getBy(ctx.params.category,ctx.params.difficulty);
-})
-
-router.put("/api/quizes/:id", async(ctx) => {
-  ctx.body = await quizService.updateById(ctx.params.id, {...ctx.request.body})
-})
-
-router.delete("/api/quizes/:id", async(ctx) => {
-  ctx.body = await quizService.deleteById(ctx.params.id);
-})
-
-router.post("/api/quizes", async(ctx) => {
-    const newQuiz = await quizService.create({...ctx.request.body });
-    ctx.body = newQuiz;
-  });  
-
-app
-  .use(router.routes())
-  .use(router.allowedMethods());
-
-
-
-
-
-
-app.listen(PORT);
-getLogger().info(`Server listening on http://${HOST}:${PORT}`);
+main();
