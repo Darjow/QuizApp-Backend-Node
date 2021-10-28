@@ -1,6 +1,10 @@
 const {getKnex, tables} = require("../data");
 const he = require(`he`); //DECODE HTML ENTITY -> UTF 8
 
+
+
+
+
 const getAll = ({ limit, offset }) => {
   return getKnex()(tables.quiz) 
     .select()  

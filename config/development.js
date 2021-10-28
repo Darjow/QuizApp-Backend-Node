@@ -11,8 +11,7 @@ module.exports = {
     client:'mysql2',
     host: "127.0.0.1",
     port: 3306,
-    name: "Quiz-Master",
-    username: "root",
-    password: "root"
+    name: "quiz-master",
+
   },
 };
