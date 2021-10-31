@@ -31,9 +31,11 @@ const createQuiz = async (ctx) => {
   ctx.body = newQuiz;
 }
 
+
 module.exports = (app) => {
+
   const router = new Router({
-    prefix: "/quiz"
+    prefix: "/quiz",
   });
 
   router.get('/', getAllQuiz);
@@ -46,11 +48,11 @@ module.exports = (app) => {
   router.post("/", createQuiz);
   router.delete("/:id", deleteQuiz);
 
-  app
-  .use(router.routes())
-  .use(router.allowedMethods)
+ 
+	app.use(router.routes()).use(router.allowedMethods());
 
-  }
+}
+
 
 
 

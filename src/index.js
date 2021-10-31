@@ -43,8 +43,12 @@ async function main() {
 	);
 	
 	const logger = getLogger();
+
 	app.use(bodyParser());
 	installRest(app);
+
+
+	
 	app.listen(PORT)
 	logger.info(`Server listening on: ${HOST}:${PORT}`)
 
