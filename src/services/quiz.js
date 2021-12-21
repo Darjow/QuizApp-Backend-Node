@@ -49,7 +49,6 @@ const createQuiz = async ({... quiz}) => {
   await quizRepository.createQuiz(quiz);
 }
 
-
 module.exports = {
   getAll,
   getById,

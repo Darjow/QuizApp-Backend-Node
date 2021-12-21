@@ -4,12 +4,12 @@ module.exports = {
   up: async (knex) => {
     await knex.schema.createTable(tables.users, (table) => {
       table.increments('ID');
-      table.string("Email",50).notNullable();
-      table.string("Username",20).notNullable().unique();
-      table.string("First_Name",20).notNullable();
-      table.string("Last_Name",20).notNullable();
-      table.string("Password",20).notNullable();
-      table.boolean("Admin").defaultTo(false);
+      table.unique("email", "idx_user_email_unique");
+      table.string("username",20).notNullable().unique();
+      table.string("first_Name",20).notNullable();
+      table.string("last_Name",20).notNullable();
+      table.string("password_hash").notNullable();
+      table.json("roles").notNullable();
     });
   },
   down: (knex) => {
