@@ -1,6 +1,7 @@
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const { getLogger } = require("./logging");
+const ServiceError = require("./serviceError");
 
 const JWT_AUDIENCE = config.get("auth.jwt.audience");
 const JWT_ISSUER = config.get("auth.jwt.issuer");
@@ -9,7 +10,7 @@ const JWT_EXPIRATION_INTERVAL = config.get("auth.jwt.expirationInterval")
 
 module.exports.generateJWT = (user) => {
   const tokenData = {
-    ID : user.id,
+    id : user.ID,
     roles: user.roles
   };
 
@@ -43,7 +44,7 @@ module.exports.verifyJWT = (authToken) => {
     jwt.verify(authToken, JWT_SECRET, verifyOptions, (err, decodedToken) => {
       if(err || !decodedToken){
        getLogger().error("Error whlie verifying token", {error: err?.message});
-        return reject(err);
+       return reject(err || ServiceError.unauthorized("Token could not be parsed"));
       };
       return resolve(decodedToken);
     });

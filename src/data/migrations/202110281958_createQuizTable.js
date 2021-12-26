@@ -8,7 +8,7 @@ module.exports = {
       table.string("type",20).notNullable();
       table.string("difficulty",20).notNullable();
       table.string("question",200).notNullable();
-      table.string("correct_Answer",50).notNullable();
+      table.string("correct_answer",50).notNullable();
       table.boolean("approved");
       table.string("author",25);
       table.json("incorrect_answers").notNullable();

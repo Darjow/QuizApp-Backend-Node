@@ -1,5 +1,6 @@
 const {getKnex, tables} = require("../data");
 const he = require(`he`); //DECODE HTML ENTITY -> UTF 8
+const ServiceError = require("../core/serviceError");
 
 
 
@@ -41,53 +42,52 @@ const getByDifficulty = (difficulty) => {
   .orderBy("id", "ASC")
 }
 const createQuiz = ({... quiz}) => {
-  let dec_q = he.decode(quiz.Question);
-  let dec_c = he.decode(quiz.Correct_Answer);
-  let dec_au = he.decode(quiz.Author);
-  let dec_inc = quiz.Incorrect_Answers.map((e) => he.decode(e));
+  let dec_q = he.decode(quiz.question);
+  let dec_c = typeof(quiz.correct_answer) === "number"? quiz.correct_answer : he.decode(quiz.correct_answer);
+  let dec_au = he.decode(quiz.author);
+  let dec_inc = quiz.incorrect_answers.map((e) => he.decode(e));
 
-  if(quiz.Author != "System") quiz.Approved = false;
+  if(quiz.author != "System") quiz.approved = false;
 
   return getKnex()(tables.quiz)
   .insert({
-    category: quiz.Category,
-    type: quiz.Type,
-    difficulty: quiz.Difficulty,
+    category: quiz.category,
+    type: quiz.type,
+    difficulty: quiz.difficulty,
     question: dec_q,
-    correct_Answer: dec_c,
-    approved: quiz.Approved,
+    correct_answer: dec_c,
+    approved: quiz.approved,
     author: dec_au,
-    incorrect_Answers: JSON.stringify(dec_inc)
+    incorrect_answers: JSON.stringify(dec_inc)
   })
 }
-// NOT IMPLEMENTED - Security checks (Approving, changing authors, ... )
+
 const updateQuiz = (id, {...quiz}) => {
-  let dec_q = he.decode(quiz.Question);
-  let dec_c = he.decode(quiz.Correct_Answer);
-  let dec_au = he.decode(quiz.Author);
-  let dec_inc = quiz.Incorrect_Answers.map((e) => he.decode(e));
-  
-  try{
-     getKnex()(tables.quiz)
-    .where("id", id)
-    .update({
-      category: quiz.Category,
-      type: quiz.Type,
-      difficulty: quiz.Difficulty,
-      question: dec_q,
-      correct_Answer: dec_c,
-      approved: quiz.Approved,
-      author: dec_au,
-      incorrect_Answers: JSON.stringify(dec_inc)
-    })
-    return findById(id);
-  } catch (error){
+
+  let dec_q = he.decode(quiz.question);
+  let dec_c = he.decode(quiz.correct_answer);
+  let dec_inc = quiz.incorrect_answers.map((e) => he.decode(e));
+    try{  
+      getKnex()(tables.quiz)
+        .where("id", id)
+        .update({
+        category: quiz.category,
+        type: quiz.type,
+        difficulty: quiz.difficulty,
+        question: dec_q,
+        correct_answer: dec_c,
+        incorrect_answers: JSON.stringify(dec_inc)
+      });
+      return getById(id);
+    }
+   catch (error){
     const logger = getChildLogger("users-repo");
     logger.error("Error in updateBy", {error});
-    throw error;
+    throw ServiceError.unknown("This should not have happened/ wrong parameters?");
+
   }
- 
 }
+
 const deleteQuiz = (id) => {
   return getKnex()(tables.quiz)
   .where("id", id)
