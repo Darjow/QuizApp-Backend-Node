@@ -137,7 +137,8 @@ function getKnex() {
 
 const tables = {
   quiz: "quiz",
-  users:"user"
+  users:"user",
+  gamesPlayed: "games_played"
 };
 
 module.exports = {

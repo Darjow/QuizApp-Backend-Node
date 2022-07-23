@@ -122,11 +122,11 @@ const checkAndParseSession = async (authHeader) => {
   const authToken = authHeader.substr(7);
   try {
     const {
-      roles, userId,
+      roles, id,
     } = await verifyJWT(authToken);
 
     return {
-      userId,
+      id,
       roles,
       authToken,
     };

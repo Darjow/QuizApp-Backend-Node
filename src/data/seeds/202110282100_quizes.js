@@ -2,9 +2,9 @@ const {tables} = require("..");
 
 module.exports = {
   seed: async(knex) => {
-    await knex(tables.quiz).delete();
     await knex(tables.quiz).insert([
         {
+          id: 1,
           category:'Entertainment: Video Games',
           type:'Multiple',
           difficulty: 'Hard',
@@ -14,6 +14,7 @@ module.exports = {
           author:'Dario Bronders',
           incorrect_answers:JSON.stringify(["bla", "bla", "bla"]),
         },{
+          id: 2,
           category:'Entertainment: Board Games',
           type:'Multiple',
           difficulty: 'Medium',

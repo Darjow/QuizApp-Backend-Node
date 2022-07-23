@@ -27,7 +27,7 @@ const create = async ({email,username,firstname,lastname,password_hash,roles}) =
   }catch (error){
     const logger = getChildLogger("users-repo");
     logger.error("Error in create",{error});
-    throw ServiceError.unknown("This should not have happened/ wrong parameters?");
+    throw ServiceError.unknown("This should not have happened,  wrong parameters?");
 
   }
 

@@ -3,7 +3,7 @@ const {tables} = require("..");
 module.exports = {
   up: async (knex) => {
     await knex.schema.createTable(tables.quiz, (table) => {
-      table.increments('id');
+      table.integer('id').primary();
       table.string("category",50).notNullable();
       table.string("type",20).notNullable();
       table.string("difficulty",20).notNullable();

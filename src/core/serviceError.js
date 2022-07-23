@@ -8,6 +8,7 @@ const EMAIL_AND_USERNAME_IN_USE = "EMAIL_AND_USERNAME_IN_USE"
 const UNKNOWN = "UNKNOWN";
 const WRONG_CREDENTIALS = "WRONG_CREDENTIALS";
 
+
 class ServiceError extends Error {
 
   constructor(code, message, details = {}){
@@ -80,6 +81,5 @@ class ServiceError extends Error {
   
 
 }
-
 
 module.exports = ServiceError;
