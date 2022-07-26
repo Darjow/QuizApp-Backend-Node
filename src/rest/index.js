@@ -1,6 +1,9 @@
 const Router = require('@koa/router');
 const installQuizRouter = require('./_quiz');
 const installUserRouter = require("./_user");
+const installCategoryRouter = require("./_category");
+const installDifficultyRouter = require("./_difficulty")
+
 
 
 module.exports = (app) => {
@@ -9,6 +12,8 @@ module.exports = (app) => {
 	});
   installQuizRouter(router);
 	installUserRouter(router);
+	installCategoryRouter(router);
+	installDifficultyRouter(router);
 
 	
 	app.use(router.routes()).use(router.allowedMethods());

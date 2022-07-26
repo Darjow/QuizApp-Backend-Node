@@ -52,7 +52,8 @@ const getQuizByCategoryDifficulty = async (ctx) => {
 
 getQuizByCategoryDifficulty.validationSchema = {
   params:{
-    category: Joi.string().valid(...Object.values(enums.Categories)).required()
+    category: Joi.number().min(0).max(99),
+    difficulty: Joi.number().min(0).max(99)
   }
 }
 
@@ -101,19 +102,21 @@ createQuiz.validationSchema = {
   }
 }
 
+
+
 module.exports = (app) => {
 
   const router = new Router({
     prefix: "/quiz",
   });
 
-  router.get('/', validate(getAllQuiz.validationSchema), getAllQuiz);
+  router.get('/', requireAuthentication, validate(getAllQuiz.validationSchema), getAllQuiz);
 
   router.get('/id=:id', validate(getQuizById.validationSchema),getQuizById);
   router.get('/category=:category', validate(getQuizByCategory.validationSchema), getQuizByCategory);
   router.get("/difficulty=:difficulty", validate(getQuizByDifficulty.validationSchema, getQuizByDifficulty));
   router.get("/:category/:difficulty", validate(getQuizByCategoryDifficulty.validationSchema),getQuizByCategoryDifficulty);
- 
+
   router.put("/:id", requireAuthentication, validate(updateQuiz.validationSchema),updateQuiz);
   router.post("/", requireAuthentication, validate(createQuiz.validationSchema), createQuiz);
 

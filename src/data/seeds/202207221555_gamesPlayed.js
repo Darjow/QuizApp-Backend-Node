@@ -6,12 +6,12 @@ module.exports = {
       [
         {
           player_id: 1,
-          score: 80,
+          score: -50,
           quiz_id: 1
         },
         {
           player_id: 1,
-          score: 60,
+          score: 50,
           quiz_id: 2
         }
       ]

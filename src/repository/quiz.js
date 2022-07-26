@@ -25,20 +25,20 @@ const getById = (id) => {
 const getByCategory = (category) => {
   return getKnex()(tables.quiz)
   .select()
-  .where("category", category)
+  .where("category_id", category)
   .orderBy("id", "ASC")
 }
 const getByCategoryDifficulty = (category,difficulty) => {
   return getKnex()(tables.quiz)
   .select()
-  .where("category", category)
-  .where("difficulty", difficulty)
+  .where("category_id", category)
+  .where("difficulty_id", difficulty)
   .orderBy("id","ASC")
 }
 const getByDifficulty = (difficulty) => {
   return getKnex()(tables.quiz)
   .select()
-  .where("difficulty", difficulty)
+  .where("difficulty_id", difficulty)
   .orderBy("id", "ASC")
 }
 const createQuiz = ({... quiz}) => {

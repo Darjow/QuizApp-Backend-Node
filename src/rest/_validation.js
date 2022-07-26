@@ -1,5 +1,6 @@
 const Joi = require("joi");
 
+
 const JOI_OPTIONS = {
   abortEarly: false,
   allowUnknown: false, // niet negeren --> return: "parameter x mag hier niet"
