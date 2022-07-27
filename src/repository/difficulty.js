@@ -1,5 +1,4 @@
 const {getKnex, tables} = require("../data");
-const ServiceError = require("../core/serviceError");
 
 
 

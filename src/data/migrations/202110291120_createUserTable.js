@@ -8,6 +8,7 @@ module.exports = {
       table.string("username",20).notNullable().unique();
       table.string("firstname",20).notNullable();
       table.string("lastname",20).notNullable();
+      table.integer("score", 6).notNullable();
       table.string("password_hash").notNullable();
       table.json("roles").notNullable();
     });

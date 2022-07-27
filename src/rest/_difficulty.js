@@ -2,8 +2,6 @@ const Router = require("@koa/router");
 const difficultyService = require("../services/difficulties");
 
 
-
-
 const getDifficulties = async (ctx) => {
   ctx.body = await difficultyService.getDifficulties();
 }

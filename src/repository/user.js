@@ -106,6 +106,14 @@ const deleteById = async (id) => {
   }
 }
 
+const updateScore = async (id, score) => {
+  const old_score = await getKnex()(tables.users).select("score").where("id",id);
+  const data = await getKnex()(tables.users)
+    .where("id", id)
+    .update("score", (old_score[0].score + score))
+
+    return data;
+}
 
 
   
@@ -121,5 +129,6 @@ module.exports = {
   deleteById,
   findCount,
   findByEmail,
-  findByUsername
+  findByUsername,
+  updateScore
 }

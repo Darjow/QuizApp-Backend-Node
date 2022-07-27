@@ -88,6 +88,16 @@ const register = async (ctx) => {
     }
   }
 
+  const addScore = async(ctx) => {
+    const response = await userService.addScore(ctx.params.id, ctx.request.body);
+    ctx.body = response;
+  }
+  addScore.validationScheme = {
+    body:{
+      score: Joi.number().min(-100).max(100)
+    }
+  }
+
 
 module.exports = (app) => {
   const router = new Router({
@@ -99,8 +109,10 @@ module.exports = (app) => {
  
   const requireAdmin = makeRequireRole(roles.ADMIN);
 
+  router.post("/:id/score", validate(addScore.validationScheme), requireAuthentication, addScore)
   router.get("/:id", validate(getById.validationScheme),requireAuthentication, getById);
-  router.put("/:id", validate(updateById.validationScheme),requireAuthentication,updateById);
+  router.put("/:id", validate(updateById.validationScheme),requireAdmin,requireAuthentication,updateById);
+
 
   router.delete("/:id",validate(deleteById.validationScheme),  requireAuthentication, requireAdmin, deleteById);
   router.get("/", validate(getAll.validationScheme), requireAuthentication, requireAdmin,  getAll);

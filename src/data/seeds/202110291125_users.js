@@ -7,18 +7,20 @@ module.exports = {
         {
           id: 1,
           email:"a@a.com",
-          username:"admin",
-          firstname:"ad",
-          lastname:"hdmin",
+          username:"Dario Admin",
+          firstname:"Dario",
+          lastname:"Admin",
+          score: 0,
           password_hash:"$argon2id$v=19$m=4096,t=6,p=1$bAS8XykPSMVsfJEWzrVGGw$r9JRazUQztRpwkWe5NGawftOydBBnpcOqwWdgdnfAvA", //testertest
           roles: JSON.stringify([roles.ADMIN,roles.USER])
         },
         {
           id: 2,
           email:"test@h.com",
-          username:"test",
-          firstname:"tester",
-          lastname:"testerG",
+          username:"Dario User",
+          firstname:"Dario",
+          lastname:"User",
+          score: 0,
           password_hash:"$argon2id$v=19$m=4096,t=6,p=1$bAS8XykPSMVsfJEWzrVGGw$r9JRazUQztRpwkWe5NGawftOydBBnpcOqwWdgdnfAvA", //testertest 
           roles: JSON.stringify([roles.USER])
         }

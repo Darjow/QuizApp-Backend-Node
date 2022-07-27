@@ -152,9 +152,19 @@ const getByUsername = async (username) => {
   if(!user){
     throw ServiceError.notFound(`No user found with username: ${username}`);
   }
-    return getByUsername
+    return user;
   }
 
+  const addScore = async (id, {score})  => {
+    debugLog(`Updating score with ${score} from player ${id}`)
+    const user = await userRepository.updateScore(id, score);
+    if(!user){
+      throw ServiceError.unknown(`An unknown error has happened updating a quiz with parameters ID: ${id} , SCORE: ${score}` )
+    }else{
+      return user;
+    }
+    }
+    
 
 
 module.exports = {
@@ -165,5 +175,7 @@ module.exports = {
   updateById,
   deleteById,
   checkAndParseSession,
-  checkRole
+  checkRole,
+  getByUsername,
+  addScore
 }
