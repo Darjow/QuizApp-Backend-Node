@@ -133,7 +133,8 @@ const checkAndParseSession = async (authHeader) => {
   } catch (error) {
     const logger = getChildLogger('user-service');
     logger.error(error.message, { error });
-    throw ServiceError.unknown("Unknown error happened");
+    useLoc
+    throw ServiceError.unauthorized("Jwt has expired.");
   }
 };
 
