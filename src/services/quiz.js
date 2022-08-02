@@ -3,18 +3,33 @@ const {getChildLogger} = require(`../core/logging`);
 const ServiceError = require("../core/serviceError");
 
 
+function filtered(quizes){
+  if(quizes){
+    if(quizes.data){
+      return quizes.data.filter(e => e.approved === 1)
+    }else{
+      return quizes.filter(e => e.approved === 1)
+    }
+  }
+    return quizes
+  }
+  
+
+
+
+
 
 const debugLog = (message, meta = {}) => {
   if(!this.logger) this.logger = getChildLogger(`quiz-service`);
   this.logger.debug(message,meta);
 };
 
-const getAll = async (limit = 100, offset = 0) => {
+const getAll = async () => {
   debugLog(`Fetching all quizes`);
-  const data = await quizRepository.getAll({limit,offset});
+  const data = await quizRepository.getAll();
   return {
-    data: data,
-    length: data.length
+    data: data/*filtered({data})*/,
+    length: data.length /*filtered({data}).length*/
   }
 }
 const getById = async (id) => {
@@ -23,7 +38,7 @@ const getById = async (id) => {
   if(!data){
     throw ServiceError.notFound(`No quizes with id: ${id} exists`);
   }
-  return data;
+  return  data /*filtered({data});*/
 }
 const getByCategory = async (category) => {
   debugLog(`Fetching quizes with Category: ${category}`);
@@ -31,7 +46,7 @@ const getByCategory = async (category) => {
   if(!data){
     throw ServiceError.notFound(`No quizes with category: ${category} exist`);
   }
-  return data;
+  return data /*filtered({data});*/
 }
 const getByDifficulty = async (difficulty) => {
   debugLog(`Fetching quizes with difficulty: ${difficulty}`);
@@ -39,11 +54,13 @@ const getByDifficulty = async (difficulty) => {
   if(!data){
     throw ServiceError.notFound(`No quizes with difficulty: ${difficulty} exist`);
   }
-  return data;
+  return data /*filtered({data});*/
 }
+
+
 const getByCategoryDifficulty = async (category,difficulty) => {
   debugLog(`Fetching quizes with category: ${category} and difficulty: ${difficulty}`);
-  let data;
+  
   if(category == 0){
     if(difficulty == 0){
       data = await getAll();
@@ -55,14 +72,19 @@ const getByCategoryDifficulty = async (category,difficulty) => {
       data = await getByCategory(category);
     }
   }else{
-   data = await quizRepository.getByCategoryDifficulty(category,difficulty);
+   data = await quizRepository.getByCategoryDifficulty(category, difficulty);
+   if(data) data = data.data.filter(e => difficulty_id === difficulty)
   }
 
   if(!data){
     throw ServiceError.notFound(`No quizes with parameters: ${category} ${difficulty} exist`);
   }
+
+
+
   return data;
 }
+
 const deleteQuiz = async (id) => {
   debugLog(`Deleting quiz with ID: ${id}`);
   const deleted = await quizRepository.deleteQuiz(id);
@@ -87,6 +109,22 @@ const createQuiz = async ({... quiz}) => {
   }
 }
 
+const approveQuiz = async (id) => {
+  debugLog("[ADMIN] Approving quiz with id: " + id);
+  const correctlyUpdated = await quizRepository.approveQuiz(id);
+
+  if(!correctlyUpdated){
+    throw ServiceError.unknown("Failed to approve quiz with id: " + id);
+  }else{
+    return correctlyUpdated;
+  }
+}
+
+const getAllNotApproved = async () => {
+  debugLog("[ADMIN] Grabbing all not approved quizes.")
+  const quizes = await quizRepository.getAllNotApproved();
+  return quizes;
+}
 module.exports = {
   getAll,
   getById,
@@ -95,5 +133,7 @@ module.exports = {
   getByCategoryDifficulty,
   deleteQuiz,
   updateQuiz,
-  createQuiz
+  createQuiz,
+  getAllNotApproved,
+  approveQuiz
 }

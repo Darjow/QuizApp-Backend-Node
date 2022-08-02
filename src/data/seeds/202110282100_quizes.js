@@ -10,7 +10,7 @@ module.exports = {
           difficulty_id: 1,
           question: "Who with having created the world's first video game Easter Egg?",
           correct_answer:'Warren Robinett',
-          approved:0,
+          approved:1,
           author:'Dario Bronders',
           incorrect_answers:JSON.stringify(["bla", "bla", "bla"]),
         },{

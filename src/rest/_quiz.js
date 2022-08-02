@@ -6,17 +6,10 @@ const enums = require("../core/Enum");
 const { requireAuthentication, makeRequireRole } = require("../core/auth");
 const roles = require("../core/roles");
 
+
 const getAllQuiz = async (ctx) => {
-  const limit = ctx.query.limit && Number(ctx.query.limit);
-  const offset = ctx.query.offset && Number(ctx.query.offset);
-  ctx.body = await quizService.getAll(limit, offset);
+  ctx.body = await quizService.getAll();
 }
-getAllQuiz.validationSchema = {
-  query: Joi.object({
-    limit: Joi.number().positive().integer().max(100).optional(),
-    offset: Joi.number().integer().min(0).optional()
-  }).and("limit", "offset"),
-};
 const getQuizById = async (ctx) => {
   ctx.body = await quizService.getById(Number(ctx.params.id));
 }
@@ -102,6 +95,22 @@ createQuiz.validationSchema = {
   }
 }
 
+const getAllNotApproved = async (ctx) => {
+  const quizes = await quizService.getAllNotApproved();
+  ctx.body = quizes;
+}
+
+
+const approveQuiz = async (ctx) => {
+  ctx.body = await quizService.approveQuiz(Number(ctx.params.id))
+
+}
+approveQuiz.validationSchema = {
+  params:{
+    id: Joi.number().integer().min(1).required()
+  }
+}
+
 
 
 module.exports = (app) => {
@@ -110,7 +119,7 @@ module.exports = (app) => {
     prefix: "/quiz",
   });
 
-  router.get('/', requireAuthentication, validate(getAllQuiz.validationSchema), getAllQuiz);
+  router.get('/', requireAuthentication, getAllQuiz);
 
   router.get('/id=:id', validate(getQuizById.validationSchema),getQuizById);
   router.get('/category=:category', validate(getQuizByCategory.validationSchema), getQuizByCategory);
@@ -126,6 +135,9 @@ module.exports = (app) => {
 
   router.delete("/:id", requireAuthentication, requireAdmin, deleteQuiz);
 
+
+  router.get("/admin", requireAuthentication, requireAdmin, getAllNotApproved);
+  router.post("/admin/:id", requireAuthentication, requireAdmin, validate(approveQuiz.validationSchema), approveQuiz)
  
 	app.use(router.routes()).use(router.allowedMethods());
 

@@ -5,7 +5,7 @@ module.exports = {
     await knex.schema.createTable(tables.gamesPlayed, (table) => {
       table.increments("id");
       table.integer("player_id").notNullable();
-      table.integer("quiz_id").notNullable();
+      table.integer("quiz_id").nullable()
       table.integer("score").notNullable();
 
       table.foreign("player_id", "fk_gamesPlayed_playerID")
@@ -17,8 +17,7 @@ module.exports = {
 
     table.foreign("quiz_id", "fk_gamesPlayed_quizID")
       .references(`${tables.quiz}.id`)
-      .onDelete("NO ACTION")
-      .onUpdate("NO ACTION")
+      .onDelete("SET NULL")
     
     })
 

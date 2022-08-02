@@ -4,12 +4,10 @@ const ServiceError = require("../core/serviceError");
 
 
 
-const getAll = ({ limit, offset }) => {
+const getAll = () => {
   return getKnex()(tables.quiz) 
-    .select()  
-   // .where("Approved",1)  ONLY SHOW APPROVED ONES, OFF IN TESTING
-    .limit(limit)
-    .offset(offset)
+    .select()
+    .where("approved", 1)  
     .orderBy('ID','asc')
     
 };
@@ -17,7 +15,7 @@ const getAll = ({ limit, offset }) => {
 const getById = (id) => {
   return getKnex()(tables.quiz)
   .select()
-//  .where("Approved", 1)
+  .where("approved", 1)
   .where("id", id)
 
 
@@ -26,6 +24,7 @@ const getByCategory = (category) => {
   return getKnex()(tables.quiz)
   .select()
   .where("category_id", category)
+  .where("approved", 1)
   .orderBy("id", "ASC")
 }
 const getByCategoryDifficulty = (category,difficulty) => {
@@ -33,12 +32,14 @@ const getByCategoryDifficulty = (category,difficulty) => {
   .select()
   .where("category_id", category)
   .where("difficulty_id", difficulty)
+  .where("approved", 1)
   .orderBy("id","ASC")
 }
 const getByDifficulty = (difficulty) => {
   return getKnex()(tables.quiz)
   .select()
   .where("difficulty_id", difficulty)
+  .where("approved", 1)
   .orderBy("id", "ASC")
 }
 const createQuiz = ({... quiz}) => {
@@ -94,7 +95,17 @@ const deleteQuiz = (id) => {
   .del()
 }
 
+const getAllNotApproved = () => {
+  return getKnex()(tables.quiz)
+    .select()
+    .where("approved", 0)
+}
 
+const approveQuiz = (id)  => {
+  return getKnex()(tables.quiz)
+  .update({approved: 1})
+  .where("id", id)
+}
 
 module.exports = {
 getAll,
@@ -105,6 +116,8 @@ getByDifficulty,
 createQuiz,
 updateQuiz,
 deleteQuiz,
+getAllNotApproved,
+approveQuiz
 
 
 };
