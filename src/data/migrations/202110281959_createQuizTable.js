@@ -5,9 +5,8 @@ module.exports = {
     await knex.schema.createTable(tables.quiz, (table) => {
       table.integer('id').primary();
       table.integer("category_id",2).notNullable();
-      table.string("type",20).notNullable();
       table.integer("difficulty_id",1).notNullable();
-      table.string("question",200).notNullable();
+      table.string("question",150).notNullable();
       table.string("correct_answer",50).notNullable();
       table.boolean("approved");
       table.string("author",25);

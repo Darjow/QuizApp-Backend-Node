@@ -3,20 +3,6 @@ const {getChildLogger} = require(`../core/logging`);
 const ServiceError = require("../core/serviceError");
 
 
-function filtered(quizes){
-  if(quizes){
-    if(quizes.data){
-      return quizes.data.filter(e => e.approved === 1)
-    }else{
-      return quizes.filter(e => e.approved === 1)
-    }
-  }
-    return quizes
-  }
-  
-
-
-
 
 
 const debugLog = (message, meta = {}) => {
@@ -27,9 +13,11 @@ const debugLog = (message, meta = {}) => {
 const getAll = async () => {
   debugLog(`Fetching all quizes`);
   const data = await quizRepository.getAll();
+  let data_length = await quizRepository.getAmount();
+  data_length = data_length[0]["count(*)"];
   return {
     data: data/*filtered({data})*/,
-    length: data.length /*filtered({data}).length*/
+    length: data_length/*filtered({data}).length*/
   }
 }
 const getById = async (id) => {
@@ -103,7 +91,9 @@ const updateQuiz = async (id, {... quiz}) => {
 }
 const createQuiz = async ({... quiz}) => {
   debugLog(`Creating quiz`);
-  const valid = await quizRepository.createQuiz(quiz);
+  const data = await quizRepository.getAmount();
+  let counter = data[0]["count(*)"];
+  const valid = await quizRepository.createQuiz(++counter, quiz);
   if(!valid){
     throw ServiceError.unauthorized(`Error creating quiz with parameters ${quiz}`);
   }
