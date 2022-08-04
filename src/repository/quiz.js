@@ -23,10 +23,7 @@ const getAll = () => {
 const getById = (id) => {
   return getKnex()(tables.quiz)
   .select()
-  .where("approved", 1)
   .where("id", id)
-
-
 }
 const getByCategory = (category) => {
   return getKnex()(tables.quiz)
