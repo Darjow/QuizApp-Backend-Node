@@ -77,14 +77,6 @@ const register = async ({email,username,firstname,lastname,password}) => {
   return await makeLoginData(user);
 }
 
-
-const getAll = async ({limit = 100, offset = 0}) => {
-  debugLog("Fetching all users request received");
-  const data = await userRepository.findAll({limit,offset});
-  const count = await userRepository.findCount();
-  return { data, count }
-}
-
 const getById = async (id) => {
   debugLog(`Fetching player with id ${id}`);
   const user = await userRepository.findById(id);
@@ -94,21 +86,7 @@ const getById = async (id) => {
   return makeLoginData(user);
 }
 
-const updateById = async (id,{...user}) => {
-  await checkUnique(id, user.email, user.username);
-  const check = await userRepository.updateById(id,user); //handelt de error af 
-  if(!check){
-    throw ServiceError.unknown("Error updating user.");
-  }
-}
 
-const deleteById = async (id) => {
-  const deleted = await userRepository.deleteById(id);
-  if(!deleted){
-    throw ServiceError.unknown("Error deleting user.");
-  }
- 
-}
 
 const checkAndParseSession = async (authHeader) => {
   if (!authHeader) {
@@ -170,10 +148,7 @@ const getByUsername = async (username) => {
 module.exports = {
   login,
   register,
-  getAll,
   getById,
-  updateById,
-  deleteById,
   checkAndParseSession,
   checkRole,
   getByUsername,

@@ -46,8 +46,8 @@ const getQuizByCategoryDifficulty = async (ctx) => {
 
 getQuizByCategoryDifficulty.validationSchema = {
   params:{
-    category: Joi.number().min(0).max(99),
-    difficulty: Joi.number().min(0).max(99)
+    category: Joi.alternatives().try(Joi.string().valid(...Object.values(enums.Categories)), Joi.string().valid("*")),
+    difficulty:Joi.alternatives().try(Joi.string().valid(...Object.values(enums.Difficulty)), Joi.string().valid("*")),
   }
 }
 
@@ -68,10 +68,8 @@ const createQuiz = async (ctx) => {
 }
 createQuiz.validationSchema = {
   body: {
-    //category: Joi.string().valid(...Object.values(enums.Categories)).required(),
-    //difficulty: Joi.string().valid(...Object.values(enums.Difficulty)).required(),
-    category_id: Joi.number().min(1).max(Object.keys(enums.Categories).length),
-    difficulty_id: Joi.number().min(1).max(Object.keys(enums.Difficulty).length),
+    category: Joi.string().valid(...Object.values(enums.Categories)).required(),
+    difficulty: Joi.string().valid(...Object.values(enums.Difficulty)).required(),
     incorrect_answers: Joi.array().items().min(1).max(3),
     correct_answer: Joi.alternatives(Joi.string(), Joi.number()).required(),
     approved: Joi.number().optional().default(0),

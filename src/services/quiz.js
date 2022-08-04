@@ -1,7 +1,7 @@
 const quizRepository = require(`../repository/quiz`);
 const {getChildLogger} = require(`../core/logging`);
 const ServiceError = require("../core/serviceError");
-
+const he = require("he")
 
 
 
@@ -16,8 +16,8 @@ const getAll = async () => {
   let data_length = await quizRepository.getAmount();
   data_length = data_length[0]["count(*)"];
   return {
-    data: data/*filtered({data})*/,
-    length: data_length/*filtered({data}).length*/
+    data: data,
+    length: data_length,
   }
 }
 const getById = async (id) => {
@@ -26,15 +26,19 @@ const getById = async (id) => {
   if(!data){
     throw ServiceError.notFound(`No quizes with id: ${id} exists`);
   }
-  return  data /*filtered({data});*/
+  return  data;
 }
 const getByCategory = async (category) => {
-  debugLog(`Fetching quizes with Category: ${category}`);
-  const data = await quizRepository.getByCategory(category);
+  const cat = he.decode(category);
+  debugLog(`Fetching quizes with Category: ${cat}`);
+  const data = await quizRepository.getByCategory(cat);
   if(!data){
-    throw ServiceError.notFound(`No quizes with category: ${category} exist`);
+    throw ServiceError.notFound(`No quizes with category: ${cat} exist`);
   }
-  return data /*filtered({data});*/
+  return {
+    data: data,
+    length: data.length
+  };
 }
 const getByDifficulty = async (difficulty) => {
   debugLog(`Fetching quizes with difficulty: ${difficulty}`);
@@ -42,26 +46,28 @@ const getByDifficulty = async (difficulty) => {
   if(!data){
     throw ServiceError.notFound(`No quizes with difficulty: ${difficulty} exist`);
   }
-  return data /*filtered({data});*/
+  return {
+    data: data,
+    length: data.length
+  };
 }
 
 
 const getByCategoryDifficulty = async (category,difficulty) => {
   debugLog(`Fetching quizes with category: ${category} and difficulty: ${difficulty}`);
   
-  if(category == 0){
-    if(difficulty == 0){
+  if(category == "*"){
+    if(difficulty == "*"){
       data = await getAll();
     }else{
       data = await getByDifficulty(difficulty);
     }
-  }else if(difficulty == 0){
-    if(category != 0){
+  }else if(difficulty == "*"){
+    if(category != "*"){
       data = await getByCategory(category);
     }
   }else{
-   data = await quizRepository.getByCategoryDifficulty(category, difficulty);
-   if(data) data = data.data.filter(e => difficulty_id === difficulty)
+   data = await quizRepository.getByCategoryDifficulty(category, difficulty);  data = { data: data, length: data.length }
   }
 
   if(!data){
@@ -83,7 +89,7 @@ const deleteQuiz = async (id) => {
 
 const updateQuiz = async (id, {... quiz}) => {
   debugLog(`Updating quiz with id: ${id}`);
-  await getById(id); //throws error if no quiz found
+  await getById(id); 
   const correctlyUpdated = await quizRepository.updateQuiz(id, quiz);
   if(!correctlyUpdated){
     throw ServiceError.unauthorized(`Error updating quiz with id: ${id} and parameters ${quiz}`);

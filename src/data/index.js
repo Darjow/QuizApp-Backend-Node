@@ -139,8 +139,6 @@ const tables = {
   quiz: "quiz",
   users:"user",
   gamesPlayed: "games_played",
-  categories:"category",
-  difficulties: "difficulty"
 };
 
 module.exports = {
