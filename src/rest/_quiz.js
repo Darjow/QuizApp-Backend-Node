@@ -64,7 +64,7 @@ deleteQuiz.validationSchema = {
 }
 const createQuiz = async (ctx) => {
   const newQuiz = await quizService.createQuiz({...ctx.request.body});
-  ctx.body = newQuiz;
+  ctx.status = 204;
 }
 createQuiz.validationSchema = {
   body: {
@@ -85,7 +85,8 @@ const getAllNotApproved = async (ctx) => {
 
 
 const approveQuiz = async (ctx) => {
-  ctx.body = await quizService.approveQuiz(Number(ctx.params.id))
+  await quizService.approveQuiz(Number(ctx.params.id))
+  ctx.status =204;
 
 }
 approveQuiz.validationSchema = {

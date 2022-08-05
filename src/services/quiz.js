@@ -98,8 +98,8 @@ const updateQuiz = async (id, {... quiz}) => {
 const createQuiz = async ({... quiz}) => {
   debugLog(`Creating quiz`);
   const data = await quizRepository.getAmount();
-  let counter = data[0]["count(*)"];
-  const valid = await quizRepository.createQuiz(++counter, quiz);
+  let counter = data[0]["count(*)"] +1;
+  const valid = await quizRepository.createQuiz(counter, quiz);
   if(!valid){
     throw ServiceError.unauthorized(`Error creating quiz with parameters ${quiz}`);
   }
@@ -111,8 +111,6 @@ const approveQuiz = async (id) => {
 
   if(!correctlyUpdated){
     throw ServiceError.unknown("Failed to approve quiz with id: " + id);
-  }else{
-    return correctlyUpdated;
   }
 }
 

@@ -121,6 +121,24 @@ module.exports = {
         approved:1,
         author:'Dario Admin',
         incorrect_answers:JSON.stringify(["Fly-No-Fuely", "Gimli Fuely"]),
+      },{
+        id:14,
+        category: Categories["6"],        
+        difficulty: Difficulty["1"],
+        question: "Is chess a sport?",
+        correct_answer:'Yes',
+        approved:0,
+        author:'Dario Admin',
+        incorrect_answers:JSON.stringify(["No"]),
+      },{
+        id:15,
+        category: Categories["7"],        
+        difficulty: Difficulty["2"],
+        question: "What is the capital of Belgium?",
+        correct_answer:'Brussels',
+        approved:0,
+        author:'Dario Admin',
+        incorrect_answers:JSON.stringify(["Antwerp", "Amsterdam"]),
       }
       ]);
   }
