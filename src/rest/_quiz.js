@@ -105,10 +105,8 @@ module.exports = (app) => {
 
 
   router.get('/', requireAuthentication, getAllQuiz);
-  router.get('/id=:id', validate(getQuizById.validationSchema),getQuizById);
-  router.get('/category=:category', validate(getQuizByCategory.validationSchema), getQuizByCategory);
-  router.get("/difficulty=:difficulty", validate(getQuizByDifficulty.validationSchema, getQuizByDifficulty));
-  router.get("/:category/:difficulty", validate(getQuizByCategoryDifficulty.validationSchema),getQuizByCategoryDifficulty);
+  router.get('/id',requireAuthentication, validate(getQuizById.validationSchema),getQuizById);
+  router.get("/:category/:difficulty", requireAuthentication, validate(getQuizByCategoryDifficulty.validationSchema),getQuizByCategoryDifficulty);
 
 
   router.post("/", requireAuthentication, validate(createQuiz.validationSchema), createQuiz);

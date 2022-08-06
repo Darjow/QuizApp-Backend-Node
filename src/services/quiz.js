@@ -54,7 +54,6 @@ const getByDifficulty = async (difficulty) => {
 
 
 const getByCategoryDifficulty = async (category,difficulty) => {
-  debugLog(`Fetching quizes with category: ${category} and difficulty: ${difficulty}`);
   
   if(category == "*"){
     if(difficulty == "*"){
@@ -67,14 +66,13 @@ const getByCategoryDifficulty = async (category,difficulty) => {
       data = await getByCategory(category);
     }
   }else{
-   data = await quizRepository.getByCategoryDifficulty(category, difficulty);  data = { data: data, length: data.length }
+  debugLog(`Fetching quizes with category: ${category} and difficulty: ${difficulty}`);
+  data = await quizRepository.getByCategoryDifficulty(category, difficulty);  data = { data: data, length: data.length }
   }
 
   if(!data){
     throw ServiceError.notFound(`No quizes with parameters: ${category} ${difficulty} exist`);
   }
-
-
 
   return data;
 }
@@ -122,12 +120,11 @@ const getAllNotApproved = async () => {
 module.exports = {
   getAll,
   getById,
-  getByCategory,
-  getByDifficulty,
   getByCategoryDifficulty,
   deleteQuiz,
   updateQuiz,
   createQuiz,
+  
   getAllNotApproved,
   approveQuiz
 }
