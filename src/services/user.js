@@ -50,7 +50,7 @@ const login = async ({username, password})  => {
   debugLog(`Login Request Received with parameters ${username}, ${password}.`)
   const user = await userRepository.findByUsername(username);
   if(!user){
-    throw ServiceError.wrongCredentials("Username does not exist");
+    throw ServiceError.wrongCredentials("Username does not exist.");
   }
   const passwordValid = await verifyPassword(password,user.password_hash);
   
@@ -81,7 +81,7 @@ const getById = async (id) => {
   debugLog(`Fetching player with id ${id}`);
   const user = await userRepository.findById(id);
   if(!user){
-    throw ServiceError.unauthorized(`No user with id ${id} exists`);
+    throw ServiceError.unauthorized(`No user with id ${id} exists.`);
   }
   return makeLoginData(user);
 }

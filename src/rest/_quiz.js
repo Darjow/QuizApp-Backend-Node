@@ -63,7 +63,7 @@ deleteQuiz.validationSchema = {
   }
 }
 const createQuiz = async (ctx) => {
-  const newQuiz = await quizService.createQuiz({...ctx.request.body});
+  await quizService.createQuiz({...ctx.request.body});
   ctx.status = 204;
 }
 createQuiz.validationSchema = {
