@@ -65,8 +65,8 @@ const register = async (ctx) => {
   });
 
   const addScoreLimiter = RateLimit.middleware({
-    interval: {sec:1},
-    max: 1,
+    interval: {sec:10},
+    max: 2,
     message: "Slow down quiz 'master'."
   });
 

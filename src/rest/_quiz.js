@@ -70,8 +70,8 @@ approveQuiz.validationSchema = {
 
 
 const createQuizLimiter = RateLimit.middleware({
-  interval: 5000,
-  max: 1,
+  interval: {min:1},
+  max: 10,
   message: "Please wait to upload more quizes"
 })
 
