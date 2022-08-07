@@ -19,21 +19,11 @@ const getAll = async () => {
     length: data.length /*data_length*/,
   }
 }
-const getById = async (id) => {
-  debugLog(`Fetching quizes with ID: ${id} `)
-  const data = await quizRepository.getById(id);
-  if(!data){
-    throw ServiceError.notFound(`No quizes with id: ${id} exists`);
-  }
-  return  data;
-}
 const getByCategory = async (category) => {
   const cat = he.decode(category);
   debugLog(`Fetching quizes with Category: ${cat}`);
   const data = await quizRepository.getByCategory(cat);
-  if(!data){
-    throw ServiceError.notFound(`No quizes with category: ${cat} exist`);
-  }
+  
   return {
     data: data,
     length: data.length
@@ -42,9 +32,7 @@ const getByCategory = async (category) => {
 const getByDifficulty = async (difficulty) => {
   debugLog(`Fetching quizes with difficulty: ${difficulty}`);
   const data = await quizRepository.getByDifficulty(difficulty);
-  if(!data){
-    throw ServiceError.notFound(`No quizes with difficulty: ${difficulty} exist`);
-  }
+ 
   return {
     data: data,
     length: data.length
@@ -53,7 +41,6 @@ const getByDifficulty = async (difficulty) => {
 
 
 const getByCategoryDifficulty = async (category,difficulty) => {
-  
   if(category == "*"){
     if(difficulty == "*"){
       data = await getAll();
@@ -65,12 +52,12 @@ const getByCategoryDifficulty = async (category,difficulty) => {
       data = await getByCategory(category);
     }
   }else{
-  debugLog(`Fetching quizes with category: ${category} and difficulty: ${difficulty}`);
-  data = await quizRepository.getByCategoryDifficulty(category, difficulty);  data = { data: data, length: data.length }
+    debugLog(`Fetching quizes with category: ${category} and difficulty: ${difficulty}`);
+    data = await quizRepository.getByCategoryDifficulty(category, difficulty);  data = { data: data, length: data.length }
   }
 
-  if(!data){
-    throw ServiceError.notFound(`No quizes with parameters: ${category} ${difficulty} exist`);
+  if(data.length == 0){
+    throw ServiceError.notFound(`No quizes with parameters: ${category}, ${difficulty} exist.`);
   }
 
   return data;
@@ -80,36 +67,26 @@ const deleteQuiz = async (id) => {
   debugLog(`Deleting quiz with ID: ${id}`);
   const deleted = await quizRepository.deleteQuiz(id);
   if(!deleted){
-    throw ServiceError.notFound(`No quiz found with id: ${id} exists`);
-    }
+    throw ServiceError.notFound(`No quiz found with id: ${id}.`);
+  }
   }
 
-const updateQuiz = async (id, {... quiz}) => {
-  debugLog(`Updating quiz with id: ${id}`);
-  const correctlyUpdated = await quizRepository.updateQuiz(id, quiz);
-  if(!correctlyUpdated){
-    throw ServiceError.unauthorized(`Error updating quiz with id: ${id} and parameters ${quiz}`);
-  }
-  return await getById(id);
-}
 const createQuiz = async ({... quiz}) => {
   debugLog(`Creating quiz`);
   let id = await quizRepository.getHighestID(); id = id[0].id
-  const valid = await quizRepository.createQuiz(id + 1, quiz);
-  if(!valid){
-    throw ServiceError.unauthorized(`Error creating quiz with parameters ${quiz}`);
-  }
+  await quizRepository.createQuiz(id + 1, quiz);
+
+  //NO SERVICE ERROR AS IT NEEDS TO PASS THE REST JOI VERIFICATION
+  // MADE TEST TO TEST THIS VERIFICATION
+  
   return await quizRepository.getById(id + 1);
 }
 
+
 const approveQuiz = async (id) => {
   debugLog("[ADMIN] Approving quiz with id: " + id);
-  const correctlyUpdated = await quizRepository.approveQuiz(id);
-
-  if(!correctlyUpdated){
-    throw ServiceError.unknown("Failed to approve quiz with id: " + id);
-  }
-  return await quizRepository.getById(id);
+  await quizRepository.approveQuiz(id);
+  return await quizRepository.getById(id)
 }
 
 const getAllNotApproved = async () => {
@@ -122,10 +99,8 @@ const getAllNotApproved = async () => {
 }
 module.exports = {
   getAll,
-  getById,
   getByCategoryDifficulty,
   deleteQuiz,
-  updateQuiz,
   createQuiz,
 
   getAllNotApproved,

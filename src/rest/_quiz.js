@@ -11,15 +11,8 @@ const roles = require("../core/roles");
 const getAllQuiz = async (ctx) => {
   ctx.body = await quizService.getAll();
 }
-const getQuizById = async (ctx) => {
-  ctx.body = await quizService.getById(Number(ctx.params.id));
-}
 
-getQuizById.validationSchema = {
-  params:{
-    id: Joi.number().integer().min(1).required()
-  }
-}
+
 
 const getQuizByCategoryDifficulty = async (ctx) => {
   ctx.body = await quizService.getByCategoryDifficulty(ctx.params.category, ctx.params.difficulty);
@@ -51,7 +44,7 @@ createQuiz.validationSchema = {
   body: {
     category: Joi.string().valid(...Object.values(enums.Categories)).required(),
     difficulty: Joi.string().valid(...Object.values(enums.Difficulties)).required(),
-    incorrect_answers: Joi.array().items().min(1).max(3),
+    incorrect_answers: Joi.array().min(1).max(3).items(Joi.string().min(1).max(50), Joi.string().valid(Joi.in("/correct_answer")).forbidden()).required(),
     correct_answer: Joi.alternatives(Joi.string(), Joi.number()).required(),
     approved: Joi.number().optional().default(0),
     question: Joi.string().min(10).max(150).required(),

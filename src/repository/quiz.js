@@ -69,9 +69,9 @@ const createQuiz = (id, {... quiz}) => {
 
 
 const deleteQuiz = (id) => {
-  return getKnex()(tables.quiz)
-  .where("id", id)
-  .del()
+    return getKnex()(tables.quiz)
+    .where("id", id)
+    .del()
 }
 
 const getAllNotApproved = () => {

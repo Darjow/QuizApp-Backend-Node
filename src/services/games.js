@@ -1,6 +1,5 @@
 const gamesRepository = require(`../repository/games`);
 const {getChildLogger} = require(`../core/logging`);
-const ServiceError = require("../core/serviceError");
 
 
 const debugLog = (message, meta = {}) => {
@@ -11,10 +10,8 @@ const debugLog = (message, meta = {}) => {
 
 const createGame = async ({playerID, quizID, score}) => {
   debugLog(`Creating game with parameters playerID: ${playerID}, quizID: ${quizID}, score: ${score}`);
-  const valid = await gamesRepository.createGame(playerID, quizID, score);
-  if(!valid){
-    throw ServiceError.unauthorized(`Error creating games with parameters ${game}`);
-  }
+  await gamesRepository.createGame(playerID, quizID, score);
+
 }
 const getAllGames = async () => {
   debugLog(`Fetching all games`);

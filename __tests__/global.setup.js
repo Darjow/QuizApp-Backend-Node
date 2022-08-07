@@ -113,4 +113,19 @@ module.exports = async () => {
   }
 ]);
 
+
+//INSERT GAMES 
+await getKnex()(tables.gamesPlayed).insert([{
+  player_id: 1,
+  quiz_id: 14,
+  score: 75,
+},{
+  player_id: 2,
+  quiz_id: 14,
+  score: -75
+},{
+  player_id: 1,
+  quiz_id: 15,
+  score: 50
+}])
 }

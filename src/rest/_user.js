@@ -8,7 +8,8 @@ const { requireAuthentication } = require("../core/auth");
 
 
 const getById = async (ctx) => {
-  ctx.body = await userService.getById(ctx.params.id);
+  token = ctx.headers.authorization?.split("Bearer ")[1];
+  ctx.body = await userService.getById(ctx.params.id, token?token:null);
 }
 
 getById.validationScheme = {
@@ -18,10 +19,8 @@ getById.validationScheme = {
 }
 
 const login = async (ctx) => {
-
     const response = await userService.login(ctx.request.body);
     ctx.body = response;
-
 }
 
 login.validationScheme = {

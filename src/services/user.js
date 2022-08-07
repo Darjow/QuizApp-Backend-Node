@@ -6,6 +6,22 @@ const { generateJWT, verifyJWT } = require("../core/jwt");
 const ServiceError = require("../core/serviceError");
 
 
+
+const allowed = async (token, id) => {
+
+  if(!token){
+    throw ServiceError.unauthorized("You need to provide auth token!");
+  }
+  try{
+    return await verifyJWT(token).then(e => {
+      return e.id == id;
+    });
+  }catch(error){
+    throw ServiceError.unauthorized("You need to provide valid auth token!");
+  }
+} 
+
+
 const debugLog = (message, meta = {}) => {
   if(!this.logger) this.logger = getChildLogger(`user-service`);
   this.logger.debug(message,meta);
@@ -77,15 +93,18 @@ const register = async ({email,username,firstname,lastname,password}) => {
   return await makeLoginData(user);
 }
 
-const getById = async (id) => {
-  debugLog(`Fetching player with id ${id}`);
-  const user = await userRepository.findById(id);
-  if(!user){
-    throw ServiceError.unauthorized(`No user with id ${id} exists.`);
-  }
-  return makeLoginData(user);
-}
+const getById = async (id, token) => {
+  debugLog(`Fetching player with id ${id}, received token: ${token}`);
 
+  const check = await allowed(token,id)
+  if(check){
+    const user = await userRepository.findById(id);
+    return makeLoginData(user);
+  }else{
+    throw ServiceError.unauthorized('You can only see your own credentials!');
+  }
+}
+    
 
 
 const checkAndParseSession = async (authHeader) => {
@@ -137,9 +156,9 @@ const getByUsername = async (username) => {
     debugLog(`Updating score with ${score} from player ${id}`)
     const user = await userRepository.updateScore(id, score);
     if(!user){
-      throw ServiceError.unknown(`An unknown error has happened updating a quiz with parameters ID: ${id} , SCORE: ${score}` )
+      throw ServiceError.validationFailed(`An unknown error has happened updating a quiz with parameters ID: ${id} , SCORE: ${score}` )
     }else{
-      return user;
+      return returnValue(user);
     }
     }
     

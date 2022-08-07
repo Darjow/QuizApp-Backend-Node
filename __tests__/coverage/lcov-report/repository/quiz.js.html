@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.43% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>88/103</span>
+                <span class='fraction'>103/103</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.88% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/9</span>
+                <span class='fraction'>11/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.43% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>88/103</span>
+                <span class='fraction'>103/103</span>
             </div>
         
             
@@ -189,25 +189,10 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -236,10 +221,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -248,10 +229,29 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -302,14 +302,14 @@ const getByCategory = (category) =&gt; {
   .where("approved", 1)
   .orderBy("id", "ASC")
 }
-const getByCategoryDifficulty = <span class="fstat-no" title="function not covered" >(category,difficulty) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return getKnex()(tables.quiz)</span>
-<span class="cstat-no" title="statement not covered" >  .select()</span>
-<span class="cstat-no" title="statement not covered" >  .where("category", category)</span>
-<span class="cstat-no" title="statement not covered" >  .where("difficulty", difficulty)</span>
-<span class="cstat-no" title="statement not covered" >  .where("approved", 1)</span>
-<span class="cstat-no" title="statement not covered" >  .orderBy("id","ASC")</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+const getByCategoryDifficulty = (category,difficulty) =&gt; {
+  return getKnex()(tables.quiz)
+  .select()
+  .where("category", category)
+  .where("difficulty", difficulty)
+  .where("approved", 1)
+  .orderBy("id","ASC")
+}
 const getByDifficulty = (difficulty) =&gt; {
   return getKnex()(tables.quiz)
   .select()
@@ -337,11 +337,11 @@ const createQuiz = (id, {... quiz}) =&gt; {
 }
 &nbsp;
 &nbsp;
-const deleteQuiz = (<span class="fstat-no" title="function not covered" >id) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return getKnex()(tables.quiz)</span>
-<span class="cstat-no" title="statement not covered" >  .where("id", id)</span>
-<span class="cstat-no" title="statement not covered" >  .del()</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+const deleteQuiz = (id) =&gt; {
+    return getKnex()(tables.quiz)
+    .where("id", id)
+    .del()
+}
 &nbsp;
 const getAllNotApproved = () =&gt; {
   return getKnex()(tables.quiz)
@@ -349,11 +349,11 @@ const getAllNotApproved = () =&gt; {
     .where("approved", 0)
 }
 &nbsp;
-const approveQuiz = (<span class="fstat-no" title="function not covered" >id)  =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return getKnex()(tables.quiz)</span>
-<span class="cstat-no" title="statement not covered" >  .update({approved: 1})</span>
-<span class="cstat-no" title="statement not covered" >  .where("id", id)</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+const approveQuiz = (id)  =&gt; {
+  return getKnex()(tables.quiz)
+  .update({approved: 1})
+  .where("id", id)
+}
 &nbsp;
 module.exports = {
 getAll,
@@ -376,7 +376,7 @@ getHighestID
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-08-07T00:47:49.907Z
+                at 2022-08-07T14:23:31.965Z
             </div>
         <script src="../prettify.js"></script>
         <script>

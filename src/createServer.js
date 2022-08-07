@@ -109,7 +109,7 @@ module.exports = async function createServer(){
         if(error.isValidationFailed) statusCode = 400;
         if(error.isUnauthorized) statusCode = 401;
         if(error.isForbidden) statusCode = 403;
-        if(error.isNotFound) statusCode = 404;
+        if(error.IsNotFound) statusCode = 404;
         if(error.isEmailInUse) statusCode = 420;
         if(error.isUsernameInUse) statusCode = 421;
         if(error.isEmailAndUsernameInUse) statusCode = 422;
@@ -145,4 +145,4 @@ module.exports = async function createServer(){
 
   }
 
-}
+};

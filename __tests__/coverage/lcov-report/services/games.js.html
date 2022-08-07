@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.17% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/29</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.17% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/29</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -89,31 +89,27 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -124,24 +120,22 @@ const {getChildLogger} = require(`../core/logging`);
 const ServiceError = require("../core/serviceError");
 &nbsp;
 &nbsp;
-const debugLog = <span class="fstat-no" title="function not covered" >(message, meta = {}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if(!this.logger) this.logger = getChildLogger(`games-service`);</span>
-<span class="cstat-no" title="statement not covered" >  this.logger.debug(message,meta);</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+const debugLog = (message, meta = {}) =&gt; {
+  if(!this.logger) this.logger = getChildLogger(`games-service`);
+  this.logger.debug(message,meta);
+};
 &nbsp;
 &nbsp;
-const createGame = <span class="fstat-no" title="function not covered" >async ({playerID, quizID, score}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  debugLog(`Creating game with parameters playerID: ${playerID}, quizID: ${quizID}, score: ${score}`);</span>
-<span class="cstat-no" title="statement not covered" >  const valid = await gamesRepository.createGame(playerID, quizID, score);</span>
-<span class="cstat-no" title="statement not covered" >  if(!valid){</span>
-<span class="cstat-no" title="statement not covered" >    throw ServiceError.unauthorized(`Error creating games with parameters ${game}`);</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
-const getAllGames = <span class="fstat-no" title="function not covered" >async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  debugLog(`Fetching all games`);</span>
-<span class="cstat-no" title="statement not covered" >  const data =  await gamesRepository.getAllGames();</span>
-<span class="cstat-no" title="statement not covered" >  return data;</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+const createGame = async ({playerID, quizID, score}) =&gt; {
+  debugLog(`Creating game with parameters playerID: ${playerID}, quizID: ${quizID}, score: ${score}`);
+  const valid = await gamesRepository.createGame(playerID, quizID, score);
+&nbsp;
+}
+const getAllGames = async () =&gt; {
+  debugLog(`Fetching all games`);
+  const data =  await gamesRepository.getAllGames();
+  return data;
+}
 &nbsp;
 &nbsp;
 module.exports = {
@@ -154,7 +148,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-08-07T00:47:49.907Z
+                at 2022-08-07T14:23:31.965Z
             </div>
         <script src="../prettify.js"></script>
         <script>

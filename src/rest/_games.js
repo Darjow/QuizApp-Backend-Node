@@ -7,9 +7,7 @@ const validate = require("./_validation.js");
 
 
 const createGame =  async (ctx) =>{ 
-  const game = await gamesService.createGame(ctx.request.body)
-
-  ctx.body = game;
+  await gamesService.createGame(ctx.request.body);
   ctx.status = 201;
 
 }
