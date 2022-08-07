@@ -20,25 +20,6 @@ getQuizById.validationSchema = {
     id: Joi.number().integer().min(1).required()
   }
 }
-const getQuizByCategory = async (ctx) => {
-  ctx.body = await quizService.getByCategory(ctx.params.category);
-}
-
-getQuizByCategory.validationSchema = {
-  params: {
-    category: Joi.string().valid(...Object.values(enums.Categories)).required()
-  }
-}
-
-const getQuizByDifficulty = async (ctx) => {
-  ctx.body = await quizService.getByDifficulty(ctx.params.difficulty);
-}
-
-getQuizByDifficulty.validationSchema = {
-  params: {
-    difficulty: Joi.string().valid(...Object.values(enums.Difficulty)).required()
-  }
-}
 
 const getQuizByCategoryDifficulty = async (ctx) => {
   ctx.body = await quizService.getByCategoryDifficulty(ctx.params.category, ctx.params.difficulty);
@@ -47,7 +28,7 @@ const getQuizByCategoryDifficulty = async (ctx) => {
 getQuizByCategoryDifficulty.validationSchema = {
   params:{
     category: Joi.alternatives().try(Joi.string().valid(...Object.values(enums.Categories)), Joi.string().valid("*")),
-    difficulty:Joi.alternatives().try(Joi.string().valid(...Object.values(enums.Difficulty)), Joi.string().valid("*")),
+    difficulty:Joi.alternatives().try(Joi.string().valid(...Object.values(enums.Difficulties)), Joi.string().valid("*")),
   }
 }
 
@@ -63,13 +44,13 @@ deleteQuiz.validationSchema = {
   }
 }
 const createQuiz = async (ctx) => {
-  await quizService.createQuiz({...ctx.request.body});
-  ctx.status = 204;
+  ctx.body = await quizService.createQuiz({...ctx.request.body});
+  ctx.status = 201;
 }
 createQuiz.validationSchema = {
   body: {
     category: Joi.string().valid(...Object.values(enums.Categories)).required(),
-    difficulty: Joi.string().valid(...Object.values(enums.Difficulty)).required(),
+    difficulty: Joi.string().valid(...Object.values(enums.Difficulties)).required(),
     incorrect_answers: Joi.array().items().min(1).max(3),
     correct_answer: Joi.alternatives(Joi.string(), Joi.number()).required(),
     approved: Joi.number().optional().default(0),
@@ -85,8 +66,7 @@ const getAllNotApproved = async (ctx) => {
 
 
 const approveQuiz = async (ctx) => {
-  await quizService.approveQuiz(Number(ctx.params.id))
-  ctx.status =204;
+  ctx.body = await quizService.approveQuiz(Number(ctx.params.id))
 
 }
 approveQuiz.validationSchema = {
@@ -105,7 +85,6 @@ module.exports = (app) => {
 
 
   router.get('/', requireAuthentication, getAllQuiz);
-  router.get('/id',requireAuthentication, validate(getQuizById.validationSchema),getQuizById);
   router.get("/:category/:difficulty", requireAuthentication, validate(getQuizByCategoryDifficulty.validationSchema),getQuizByCategoryDifficulty);
 
 

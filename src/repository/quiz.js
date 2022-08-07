@@ -4,10 +4,12 @@ const he = require("he")
 
 
 
-const getAmount = () => {
+const getHighestID = () => {
   return getKnex()(tables.quiz)
-    .select()
-    .count()
+    .select("id")
+    .orderBy("id", "desc")
+    .limit(1)
+
 }
 
 
@@ -94,7 +96,8 @@ createQuiz,
 deleteQuiz,
 getAllNotApproved,
 approveQuiz,
-getAmount
+
+getHighestID
 
 
 };

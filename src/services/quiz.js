@@ -13,11 +13,10 @@ const debugLog = (message, meta = {}) => {
 const getAll = async () => {
   debugLog(`Fetching all quizes`);
   const data = await quizRepository.getAll();
-  let data_length = await quizRepository.getAmount();
-  data_length = data_length[0]["count(*)"];
+
   return {
     data: data,
-    length: data_length,
+    length: data.length /*data_length*/,
   }
 }
 const getById = async (id) => {
@@ -87,20 +86,20 @@ const deleteQuiz = async (id) => {
 
 const updateQuiz = async (id, {... quiz}) => {
   debugLog(`Updating quiz with id: ${id}`);
-  await getById(id); 
   const correctlyUpdated = await quizRepository.updateQuiz(id, quiz);
   if(!correctlyUpdated){
     throw ServiceError.unauthorized(`Error updating quiz with id: ${id} and parameters ${quiz}`);
   }
+  return await getById(id);
 }
 const createQuiz = async ({... quiz}) => {
   debugLog(`Creating quiz`);
-  const data = await quizRepository.getAmount();
-  let counter = data[0]["count(*)"] +1;
-  const valid = await quizRepository.createQuiz(counter, quiz);
+  let id = await quizRepository.getHighestID(); id = id[0].id
+  const valid = await quizRepository.createQuiz(id + 1, quiz);
   if(!valid){
     throw ServiceError.unauthorized(`Error creating quiz with parameters ${quiz}`);
   }
+  return await quizRepository.getById(id + 1);
 }
 
 const approveQuiz = async (id) => {
@@ -110,12 +109,16 @@ const approveQuiz = async (id) => {
   if(!correctlyUpdated){
     throw ServiceError.unknown("Failed to approve quiz with id: " + id);
   }
+  return await quizRepository.getById(id);
 }
 
 const getAllNotApproved = async () => {
   debugLog("[ADMIN] Grabbing all not approved quizes.")
   const quizes = await quizRepository.getAllNotApproved();
-  return quizes;
+  return {
+    data: quizes,
+    length:quizes.length
+  };
 }
 module.exports = {
   getAll,
@@ -124,7 +127,7 @@ module.exports = {
   deleteQuiz,
   updateQuiz,
   createQuiz,
-  
+
   getAllNotApproved,
   approveQuiz
 }

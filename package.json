@@ -8,9 +8,6 @@
     "test": "npx env-cmd -f .env.test jest",
     "test:coverage": "yarn test --coverage"
   },
-  "jest":{
-    "testPathIgnorePatterns": [ "src", "node_modules", "config" ]
-  },
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "@koa/router": "^10.1.1",

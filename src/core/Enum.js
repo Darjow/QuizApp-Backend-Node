@@ -14,7 +14,7 @@ const Categories = {
   13: 'Vehicles',
 }
 
-const Difficulty = {
+const Difficulties = {
   1: "easy",
   2: "medium",
   3: "hard"
@@ -22,5 +22,5 @@ const Difficulty = {
 
 
 module.exports = {
-  Categories, Difficulty
+  Categories, Difficulties
 }
