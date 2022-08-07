@@ -5,7 +5,7 @@ const validate = require("./_validation");
 const enums = require("../core/Enum");
 const { requireAuthentication, makeRequireRole } = require("../core/auth");
 const roles = require("../core/roles");
-
+const RateLimit = require("koa2-ratelimit").RateLimit
 
 
 const getAllQuiz = async (ctx) => {
@@ -69,6 +69,12 @@ approveQuiz.validationSchema = {
 }
 
 
+const createQuizLimiter = RateLimit.middleware({
+  interval: 5000,
+  max: 1,
+  message: "Please wait to upload more quizes"
+})
+
 
 module.exports = (app) => {
 
@@ -81,7 +87,7 @@ module.exports = (app) => {
   router.get("/:category/:difficulty", requireAuthentication, validate(getQuizByCategoryDifficulty.validationSchema),getQuizByCategoryDifficulty);
 
 
-  router.post("/", requireAuthentication, validate(createQuiz.validationSchema), createQuiz);
+  router.post("/", createQuizLimiter,  requireAuthentication ,validate(createQuiz.validationSchema), createQuiz);
 
 
   

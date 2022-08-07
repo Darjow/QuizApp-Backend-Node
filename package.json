@@ -21,6 +21,7 @@
     "koa": "^2.13.3",
     "koa-bodyparser": "^4.3.0",
     "koa-combine-routers": "^4.0.2",
+    "koa2-ratelimit": "^1.1.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.2",
     "node-emoji": "^1.11.0",

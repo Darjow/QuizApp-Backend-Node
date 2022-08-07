@@ -3,7 +3,7 @@ const userService = require("../services/user");
 const Joi = require("joi");
 const validate = require("./_validation");
 const { requireAuthentication } = require("../core/auth");
-
+const RateLimit = require("koa2-ratelimit").RateLimit
 
 
 
@@ -57,15 +57,35 @@ const register = async (ctx) => {
   }
 
 
+
+  const registerLimiter = RateLimit.middleware({
+    interval: {min:30},
+    max: 2,
+    message: "Too many account created, come back in 30 minutes."
+  });
+
+  const addScoreLimiter = RateLimit.middleware({
+    interval: {sec:1},
+    max: 1,
+    message: "Slow down quiz 'master'."
+  });
+
+  const loginLimiter = RateLimit.middleware({
+    interval:{min: 15},
+    max: 20,
+    message:"Too many login attempts from your IP"
+  });
+
+
 module.exports = (app) => {
   const router = new Router({
     prefix: '/users',
   });
 
-  router.post("/login", validate(login.validationScheme),login);
-  router.post("/register",validate(register.validationScheme),register);
+  router.post("/login", loginLimiter, validate(login.validationScheme),login);
+  router.post("/register", registerLimiter, validate(register.validationScheme),register);
  
-  router.post("/:id/score", validate(addScore.validationScheme), requireAuthentication, addScore)
+  router.post("/:id/score", addScoreLimiter, validate(addScore.validationScheme), requireAuthentication, addScore)
   router.get("/:id", validate(getById.validationScheme),requireAuthentication, getById);
 
 

@@ -3,6 +3,7 @@ const gamesService = require("../services/games.js");
 const { requireAuthentication } = require("../core/auth");
 const Joi = require("joi");
 const validate = require("./_validation.js");
+const { RateLimit } = require("koa2-ratelimit");
 
 
 
@@ -25,16 +26,26 @@ const getAllGames = async (ctx) => {
   ctx.body =  games;
 }
 
+
+
+const createGameLimiter = RateLimit.middleware({
+  interval:{min: 1},
+  max: 10,
+  message:"Slow down cowboy"
+
+})
+
 module.exports = (app) => {
   const router = new Router({
     prefix: '/games',
   });
 
 
-  router.get('/', requireAuthentication, getAllGames)
-  router.post('/', requireAuthentication,  validate(createGame.validationSchema), createGame);
+  router.get('/',getAllGames,  requireAuthentication)
+  router.post('/',createGameLimiter,  requireAuthentication,  validate(createGame.validationSchema), createGame);
 
 	app.use(router.routes()).use(router.allowedMethods());
 }
+
 
 
