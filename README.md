@@ -3,9 +3,13 @@
 Deze applicatie is de back-end voor de quiz-applicatie.
 
 
-* **Database Login**
-  * Gebruikersnaam:      root
-  * Wachtwoord:          root
+## Databank: 
+Er wordt gebruik gemaakt van een SQL-database, deze wordt automatisch aangemaakt en geseed tijdens de development.<br />
+
+| Database           | Quiz-Master        | 
+| ------------------ | ------------------ |
+| Database username  | root               |
+| Database wachtwoord| root               |
 
 
 ####  Voor je de applicatie start:
