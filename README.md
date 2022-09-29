@@ -1,24 +1,24 @@
 # Quiz Master - Backend
 
-Deze applicatie is de back-end voor de quiz-applicatie.
+This is the back-end for the quiz application.
 
 
-## Databank: 
-Er wordt gebruik gemaakt van een SQL-database, deze wordt automatisch aangemaakt en geseed tijdens de development.<br />
+## Database: 
+An SQL database has been used for this project, it will be automatiqually migrated and seeded on launch. <br>
 
 | Database           | Quiz-Master        | 
 | ------------------ | ------------------ |
 | Database username  | root               |
-| Database wachtwoord| root               |
+| Database password  | root               |
 
 
-####  Voor je de applicatie start:
+####  Before you run the application:
 ```yarn install```
 
-####  De applicatie runnen: 
+####  Running the application: 
 ```yarn start:local```
 
-#### Testen runnen:
+####  Running tests:
 ```yarn test```
 
 
